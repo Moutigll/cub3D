@@ -11,7 +11,9 @@ LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 # MinilibX
-MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
+MLX_PATH = minilibx-linux
+MLX = $(MLX_PATH)/libmlx.a
+MLX_FLAGS = -L$(MLX_PATH) -lmlx -lX11 -lXext -lm
 
 # 🔍 Recover files
 CUB3D_SRCS = $(filter-out $(SRC_DIR)/main.c, $(shell find $(SRC_DIR) -type f -name "*.c"))
@@ -40,22 +42,21 @@ $(LIBFT):
 	@printf "$(BLUE)🔧 Compiling Libft...$(RESET)\n"
 	@$(MAKE) -C $(LIBFT_PATH)
 
-# Compilation of MinilibX
-minilibx:
+# ✅ MinilibX compilation
+$(MLX): 
 	@printf "$(BLUE)🔧 Compiling MinilibX...$(RESET)\n"
-	@$(MAKE) -C minilibx-linux
+	@$(MAKE) -C $(MLX_PATH)
 
-$(NAME): $(OBJ_DIR) $(LIBFT) $(CUB3D_OBJS) $(MAIN_OBJS) minilibx
+$(NAME): $(CUB3D_OBJS) $(MAIN_OBJS) $(LIBFT) $(MLX)
 	@printf "$(YELLOW)🚀 Creating $(BOLD)$(NAME)$(RESET)$(YELLOW)...$(RESET)\n"
-	$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(CUB3D_OBJS) $(LIBFT) $(MLX_FLAGS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(CUB3D_OBJS) $(LIBFT) $(MLX_FLAGS)
 	@printf "$(GREEN)✅ Compilation success !$(RESET)\n"
 
 # 🛠️ Progression
 TOTAL_FILES := $(words $(CUB3D_SRCS) $(MAIN_SRCS))
 COMPILED_FILES := 0
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(eval COMPILED_FILES := $(shell expr $(COMPILED_FILES) + 1))
 	@printf "$(BLUE)📦 Compilation [$$(($(COMPILED_FILES) * 100 / $(TOTAL_FILES)))%%] -> $(BOLD)$<$(RESET)\n"
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -64,16 +65,16 @@ clean:
 	@printf "$(RED)🧹 Deleting object files...$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 	@$(MAKE) clean -C $(LIBFT_PATH)
-	@$(MAKE) clean -C minilibx-linux
+	@$(MAKE) clean -C $(MLX_PATH)
 
 fclean: clean
 	@printf "$(RED)🗑️ Removing binaries...$(RESET)\n"
 	@rm -f $(NAME)
 	@$(MAKE) fclean -C $(LIBFT_PATH)
-	@$(MAKE) fclean -C minilibx-linux
+	@$(MAKE) clean -C $(MLX_PATH)
 
 re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re minilibx
+.PHONY: all clean fclean re
