@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/19 22:07:29 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:13:52 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,6 @@ long	get_time_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	rotate_player(t_main *data, double angle)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-	double	cos_a;
-	double	sin_a;
-
-	old_dir_x = data->player->dir_x;
-	old_plane_x = data->player->cam_plane_x;
-	cos_a = cos(angle);
-	sin_a = sin(angle);
-	data->player->dir_x = old_dir_x * cos_a - data->player->dir_y * sin_a;
-	data->player->dir_y = old_dir_x * sin_a + data->player->dir_y * cos_a;
-	data->player->cam_plane_x = old_plane_x
-		* cos_a - data->player->cam_plane_y * sin_a;
-	data->player->cam_plane_y = old_plane_x
-		* sin_a + data->player->cam_plane_y * cos_a;
 }
 
 void	render_frame(t_main *data)

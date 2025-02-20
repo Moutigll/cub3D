@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:42:44 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/19 22:11:04 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:58:57 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static t_ray	*init_cast_ray(t_main *data, double camera_x)
 
 /*Temporary function to draw lines instead of textures*/
 
-static void	draw_wall_line(t_main *data, int column, int line_height)
+static void	draw_wall_line(t_main *data, int column, int line_height, int side)
 {
 	int	draw_start;
 	int	draw_end;
@@ -72,7 +72,10 @@ static void	draw_wall_line(t_main *data, int column, int line_height)
 	draw_end = line_height / 2 + data->screen_height / 2;
 	if (draw_end >= data->screen_height)
 		draw_end = data->screen_height - 1;
-	draw_line(data, column, draw_start, column, draw_end, 0x80080);
+	if (side)
+		draw_line(data, column, draw_start, column, draw_end, PURPLE);
+	else
+		draw_line(data, column, draw_start, column, draw_end, DARK_PURPLE);
 }
 
 void	cast_ray(t_main *data, double camera_x, int column)
@@ -105,6 +108,6 @@ void	cast_ray(t_main *data, double camera_x, int column)
 	else
 		perp_wall_dist = ray->size_y - ray->delta_y;
 	line_height = (int)(data->screen_height / perp_wall_dist);
-	draw_wall_line(data, column, line_height);
+	draw_wall_line(data, column, line_height, side);
 	free(ray);
 }
