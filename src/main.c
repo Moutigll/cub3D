@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/20 15:09:10 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:01:02 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 void	*free_data(t_main *data)
 {
+	if (!data)
+		exit(0);
+	if (data->img)
+	{
+		if (data->img->img)
+			mlx_destroy_image(data->mlx, data->img->img);
+		free(data->img);
+	}
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)
@@ -30,9 +38,11 @@ int	main(void)
 	t_main		*data;
 
 	data = init_main();
-	if (!data || !data->player || !data->key_state)
+	if (!data || !data->player || !data->key_state || !data->texture)
 		return (free_data(data), 1);
-	parse_map(data, "assets/map.cub");
+	if (parse_map(data, "assets/map.cub") == -1)
+		return (free_data(data), 1);
+	data->start_time = get_time_ms();
 	render_frame(data);
 	mlx_loop_hook(data->mlx, loop_hook, data);
 	mlx_hook(data->win, 2, 1L << 0, key_press_hook, data);

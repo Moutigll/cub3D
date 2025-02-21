@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:42:44 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/20 14:58:57 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:33:43 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static void	draw_wall_line(t_main *data, int column, int line_height, int side)
 	if (draw_end >= data->screen_height)
 		draw_end = data->screen_height - 1;
 	if (side)
-		draw_line(data, column, draw_start, column, draw_end, PURPLE);
+		draw_column(data, column, draw_start, draw_end, PURPLE);
 	else
-		draw_line(data, column, draw_start, column, draw_end, DARK_PURPLE);
+		draw_column(data, column, draw_start, draw_end, DARK_PURPLE);
 }
 
 void	cast_ray(t_main *data, double camera_x, int column)

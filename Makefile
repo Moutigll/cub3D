@@ -16,13 +16,9 @@ MLX = $(MLX_PATH)/libmlx.a
 MLX_FLAGS = -L$(MLX_PATH) -lmlx -lX11 -lXext -lm
 
 # 🔍 Recover files
-CUB3D_SRCS = $(filter-out $(SRC_DIR)/main.c, $(shell find $(SRC_DIR) -type f -name "*.c"))
-CUB3D_OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(CUB3D_SRCS))
-
-MAIN_SRCS = $(SRC_DIR)/main.c
-MAIN_OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
-
-DEPS = $(CUB3D_OBJS:.o=.d) $(MAIN_OBJS:.o=.d)
+SRCS = $(shell find $(SRC_DIR) -type f -name "*.c")
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+DEPS = $(OBJS:.o=.d)
 
 # 🎨 ANSI colors
 GREEN  = \033[1;32m
@@ -47,18 +43,15 @@ $(MLX):
 	@printf "$(BLUE)🔧 Compiling MinilibX...$(RESET)\n"
 	@$(MAKE) -C $(MLX_PATH)
 
-$(NAME): $(CUB3D_OBJS) $(MAIN_OBJS) $(LIBFT) $(MLX)
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
 	@printf "$(YELLOW)🚀 Creating $(BOLD)$(NAME)$(RESET)$(YELLOW)...$(RESET)\n"
-	$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(CUB3D_OBJS) $(LIBFT) $(MLX_FLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(MLX_FLAGS)
 	@printf "$(GREEN)✅ Compilation success !$(RESET)\n"
 
-# 🛠️ Progression
-TOTAL_FILES := $(words $(CUB3D_SRCS) $(MAIN_SRCS))
-COMPILED_FILES := 0
-
+# 🛠️ Compilation of obj files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(eval COMPILED_FILES := $(shell expr $(COMPILED_FILES) + 1))
-	@printf "$(BLUE)📦 Compilation [$$(($(COMPILED_FILES) * 100 / $(TOTAL_FILES)))%%] -> $(BOLD)$<$(RESET)\n"
+	@mkdir -p $(dir $@)  # Création récursive des dossiers
+	@printf "$(BLUE)📦 Compiling $(BOLD)$<$(RESET)\n"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
