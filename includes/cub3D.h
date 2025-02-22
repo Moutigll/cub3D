@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 19:54:05 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:45:43 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define TITLE "Cub3D"
-# define FPS 60
+# define FPS 1000
 # define DEBUG_MODE True
 
 //Keycodes
@@ -74,6 +74,8 @@ typedef struct s_main
 	void		*win;
 	t_mlx_img	*img;
 	double		fps;
+	double		fps_min;
+	double		fps_max;
 	int			screen_width;
 	int			screen_height;
 	int			oldtime;
@@ -113,6 +115,7 @@ typedef struct s_texture
 	char		*west_path;
 	char		*east_path;
 	int			floor_color;
+	int			middle;
 	int			ceiling_color;
 	t_mlx_img	*north;
 	t_mlx_img	*south;
@@ -172,3 +175,6 @@ void		render_frame(t_main *data);
 void		print_data(t_main *data);
 void		render_debug_screen(t_main *data);
 #endif
+
+//idle fps: 60
+//now: 75
