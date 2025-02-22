@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:33:32 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:23:09 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,17 @@ char	*parse_metadata(int fd, t_main *data)
 	while (line && metadata_count < 6 && is_valid_metadata(line))
 	{
 		if (!ft_strncmp(line, "NO ", 3))
-			data->texture->north_path = ft_strdup(line + 3);
+			data->textures->north_path = ft_strcut(line + 3, '\n');
 		else if (!ft_strncmp(line, "SO ", 3))
-			data->texture->south_path = ft_strdup(line + 3);
+			data->textures->south_path = ft_strcut(line + 3, '\n');
 		else if (!ft_strncmp(line, "WE ", 3))
-			data->texture->west_path = ft_strdup(line + 3);
+			data->textures->west_path = ft_strcut(line + 3, '\n');
 		else if (!ft_strncmp(line, "EA ", 3))
-			data->texture->east_path = ft_strdup(line + 3);
+			data->textures->east_path = ft_strcut(line + 3, '\n');
 		else if (!ft_strncmp(line, "F ", 2))
-			data->texture->floor_color = parse_color(line + 2);
+			data->textures->floor_color = parse_color(line + 2);
 		else if (!ft_strncmp(line, "C ", 2))
-			data->texture->ceiling_color = parse_color(line + 2);
+			data->textures->ceiling_color = parse_color(line + 2);
 		else
 			metadata_count--;
 		metadata_count++;
@@ -245,11 +245,13 @@ int	adjust_map_line_lengths(t_main *data)
 int	parse_map(t_main *data, const char *file_path)
 {
 	int		fd;
+	char	*line;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (printf("Error: Failed to open map file\n"), -1);
-	if (read_and_parse_map(data, fd, parse_metadata(fd, data)) == -1)
+	line = parse_metadata(fd, data);
+	if (read_and_parse_map(data, fd, line) == -1)
 		return (-1);
 	if (adjust_map_line_lengths(data) == -1)
 		return (-1);

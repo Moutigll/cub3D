@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:01:02 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:31:40 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int	main(void)
 	t_main		*data;
 
 	data = init_main();
-	if (!data || !data->player || !data->key_state || !data->texture)
-		return (free_data(data), 1);
-	if (parse_map(data, "assets/map.cub") == -1)
+	if (!data || !data->player || !data->key_state || !data->textures)
 		return (free_data(data), 1);
 	data->start_time = get_time_ms();
 	render_frame(data);

@@ -6,11 +6,42 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:22:59 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:58:42 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
+
+t_mlx_img	*open_img(t_main *data, char *path)
+{
+	t_mlx_img	*img;
+
+	img = malloc(sizeof(t_mlx_img));
+	if (!img)
+		return (NULL);
+	img->img = mlx_xpm_file_to_image(data->mlx, path, &img->width, &img->height);
+	if (!img->img)
+		return (free(img), NULL);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->size_line, &img->endian);
+	return (img);
+}
+
+int	init_textures(t_main *data)
+{
+	data->textures->north = open_img(data, data->textures->north_path);
+	if (!data->textures->north)
+		return (printf("Error: Failed to open north texture\n"), 0);
+	data->textures->south = open_img(data, data->textures->south_path);
+	if (!data->textures->south)
+		return (printf("Error: Failed to open south texture\n"), 0);
+	data->textures->west = open_img(data, data->textures->west_path);
+	if (!data->textures->west)
+		return (printf("Error: Failed to open west texture\n"), 0);
+	data->textures->east = open_img(data, data->textures->east_path);
+	if (!data->textures->east)
+		return (printf("Error: Failed to open east texture\n"), 0);
+	return (1);
+}
 
 t_mlx_font	*init_font(t_main *data)
 {
@@ -25,10 +56,7 @@ t_mlx_font	*init_font(t_main *data)
 	font->path = ft_strdup("assets/font.dim");
 	if (!font->path)
 		return (free(font->font), free(font), NULL);
-	font->font->img = mlx_xpm_file_to_image(data->mlx, "assets/font.xpm",
-			&font->font->width, &font->font->height);
-	font->font->addr = mlx_get_data_addr(font->font->img,
-			&font->font->bpp, &font->font->size_line, &font->font->endian);
+	font->font = open_img(data, "assets/font.xpm");
 	font->letters_str = NULL;
 	font->letters = NULL;
 	return (font);
@@ -99,6 +127,8 @@ t_mlx_img	*allocate_img(void *mlx)
 		return (free(img), NULL);
 	img->addr = mlx_get_data_addr(
 			img->img, &img->bpp, &img->size_line, &img->endian);
+	img->width = WIDTH;
+	img->height = HEIGHT;
 	return (img);
 }
 
@@ -130,7 +160,11 @@ t_main	*init_main(void)
 	data->screen_width = WIDTH;
 	data->screen_height = HEIGHT;
 	data->player = malloc(sizeof(t_player));
-	data->texture = malloc(sizeof(t_texture));
+	data->textures = malloc(sizeof(t_texture));
 	data->key_state = init_key_state();
+	if (parse_map(data, "assets/map.cub"))
+		return (free_data(data), NULL);
+	if (!init_textures(data) || !data->player || !data->textures || !data->key_state)
+		return (free_data(data), NULL);
 	return (data);
 }

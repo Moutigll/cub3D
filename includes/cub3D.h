@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moutig <moutig@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 00:33:13 by moutig           ###   ########.fr       */
+/*   Updated: 2025/02/22 19:04:06 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_main
 	t_mlx_font	*font;
 	t_player	*player;
 	t_key_state	*key_state;
-	t_texture	*texture;
+	t_texture	*textures;
 }	t_main;
 
 typedef struct s_player
@@ -108,12 +108,16 @@ typedef struct s_key_state
 
 typedef struct s_texture
 {
-	char	*north_path;
-	char	*south_path;
-	char	*west_path;
-	char	*east_path;
-	int		floor_color;
-	int		ceiling_color;
+	char		*north_path;
+	char		*south_path;
+	char		*west_path;
+	char		*east_path;
+	int			floor_color;
+	int			ceiling_color;
+	t_mlx_img	*north;
+	t_mlx_img	*south;
+	t_mlx_img	*west;
+	t_mlx_img	*east;
 }	t_texture;
 
 typedef struct s_ray
@@ -128,6 +132,7 @@ typedef struct s_ray
 	double	size_y;
 	int		step_x;
 	int		step_y;
+	double	perp_wall_dist;
 }	t_ray;
 
 // main.c
@@ -147,7 +152,10 @@ int			destroy_hook(t_main *data);
 int			loop_hook(t_main *data);
 
 // raycast.c
-void		cast_ray(t_main *data, double camera_x, int column);
+void		cast_ray(t_main *data, double camera_x);
+
+// apply_texture.c
+void		apply_texture(t_main *data, t_ray *ray, int side, int x);
 
 // loop.c
 int			main_loop(t_main *data);
@@ -157,7 +165,6 @@ void		rotate_player(t_main *data, double angle);
 void		move_player(t_main *data, int direction);
 
 // render_frame.c
-void		draw_column(t_main *data, int x, int y1, int y2, int color);
 long		get_time_ms(void);
 void		render_frame(t_main *data);
 

@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:59:55 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:13:31 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:06:22 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void	print_map(t_main *data)
 		y++;
 	}
 	data->map[(int)data->player->player_y][(int)data->player->player_x] = '0';
-	printf("\n\t\tCeiling color: %d\n", data->texture->ceiling_color);
-	printf("\t\tFloor color: %d\n", data->texture->floor_color);
+	printf("\n\t\tCeiling color: %d\n", data->textures->ceiling_color);
+	printf("\t\tFloor color: %d\n", data->textures->floor_color);
 }
 
 static void	print_player(t_player *player)

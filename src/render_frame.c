@@ -6,32 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:36:24 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:50:29 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
-
-void	draw_column(t_main *data, int x, int y1, int y2, int color)
-{
-	int		y;
-	char	*dst;
-
-	if (x < 0 || x >= data->screen_width || y1 >= data->screen_height || y2 < 0)
-		return ;
-	if (y1 < 0)
-		y1 = 0;
-	if (y2 >= data->screen_height)
-		y2 = data->screen_height - 1;
-	y = y1;
-	while (y <= y2)
-	{
-		dst = data->img->addr
-			+ (y * data->img->size_line + x * (data->img->bpp / 8));
-		*(int *)dst = color;
-		y++;
-	}
-}
 
 long	get_time_ms(void)
 {
@@ -49,8 +28,8 @@ void	fill_background(t_main *data)
 	int		x;
 	int		y;
 
-	ceiling_color = data->texture->ceiling_color;
-	floor_color = data->texture->floor_color;
+	ceiling_color = data->textures->ceiling_color;
+	floor_color = data->textures->floor_color;
 	y = 0;
 	pixel = data->img->addr;
 	while (y < data->screen_height)
@@ -79,7 +58,7 @@ void	render_frame(t_main *data)
 	while (x < data->screen_width)
 	{
 		camera_x = 2 * x / (double)data->screen_width - 1;
-		cast_ray(data, camera_x, x);
+		cast_ray(data, camera_x);
 		x++;
 	}
 	if (DEBUG_MODE == True)
