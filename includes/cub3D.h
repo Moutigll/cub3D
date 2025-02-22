@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 19:04:06 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:54:05 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int			destroy_hook(t_main *data);
 int			loop_hook(t_main *data);
 
 // raycast.c
-void		cast_ray(t_main *data, double camera_x);
+void		cast_ray(t_main *data, double camera_x, int column);
 
 // apply_texture.c
 void		apply_texture(t_main *data, t_ray *ray, int side, int x);

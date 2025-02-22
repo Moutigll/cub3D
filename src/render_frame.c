@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 17:50:29 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:53:34 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	render_frame(t_main *data)
 	while (x < data->screen_width)
 	{
 		camera_x = 2 * x / (double)data->screen_width - 1;
-		cast_ray(data, camera_x);
+		cast_ray(data, camera_x, x);
 		x++;
 	}
 	if (DEBUG_MODE == True)

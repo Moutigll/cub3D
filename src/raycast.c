@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:42:44 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 18:02:17 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:53:51 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static t_ray	*init_cast_ray(t_main *data, double camera_x)
 	return (ray);
 }
 
-void	cast_ray(t_main *data, double camera_x)
+void	cast_ray(t_main *data, double camera_x, int column)
 {
 	t_ray	*ray;
 	int		line_height;
@@ -88,6 +88,6 @@ void	cast_ray(t_main *data, double camera_x)
 	else
 		ray->perp_wall_dist = ray->size_y - ray->delta_y;
 	line_height = (int)(data->screen_height / ray->perp_wall_dist);
-	apply_texture(data, ray, side, (int)((camera_x + 1) * data->screen_width / 2));
+	apply_texture(data, ray, side, column);
 	free(ray);
 }
