@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moutig <moutig@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:51:17 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 00:33:13 by moutig           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void		draw_column(t_main *data, int x, int y1, int y2, int color);
 long		get_time_ms(void);
 void		render_frame(t_main *data);
 
-// debug.c
+// debug
 void		print_data(t_main *data);
 void		render_debug_screen(t_main *data);
 #endif
