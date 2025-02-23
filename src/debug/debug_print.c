@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:59:55 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 17:06:22 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:01:57 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	print_player(t_player *player)
 	printf("\t\tDir y: %f\n", player->dir_y);
 	printf("\t\tCam plane x: %f\n", player->cam_plane_x);
 	printf("\t\tCam plane y: %f\n", player->cam_plane_y);
-	printf("\t\tFOV: %d\n", player->fov);
+	printf("\t\tFOV: %f\n", player->fov);
 }
 
 static void	print_settings(t_main *data)

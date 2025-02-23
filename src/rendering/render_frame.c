@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 23:17:04 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:32 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 long	get_time_ms(void)
 {

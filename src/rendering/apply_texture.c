@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:02:48 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 00:29:42 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:26 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 static t_mlx_img	*get_texture(t_main *data, t_ray *ray, int side)
 {

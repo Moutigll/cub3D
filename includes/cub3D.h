@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 23:45:43 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:54:11 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_P 112
-# define KEY_PLUS 61
-# define KEY_MINUS 45
+# define KEY_PLUS 65451
+# define KEY_MINUS 65453
 
 // Player
 # define MOVE_SPEED 0.05
@@ -97,7 +97,7 @@ typedef struct s_player
 	double	dir_y;
 	double	cam_plane_x;
 	double	cam_plane_y;
-	int		fov;
+	double	fov;
 }	t_player;
 
 typedef struct s_key_state

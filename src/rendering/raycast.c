@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:42:44 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 23:17:00 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:29 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 static void	get_step_dir_and_size(t_ray *ray, t_main *data)
 {

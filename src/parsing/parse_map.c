@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 18:23:09 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:21 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 int	is_valid_metadata(char *line)
 {

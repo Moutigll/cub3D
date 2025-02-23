@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 07:34:16 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 23:11:16 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:01:39 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	render_debug_screen_part2(t_main *data)
 	char	*tmp;
 
 	ft_mlx_put_string(data->font, "Player: ", 10, 100);
-	str = ft_strjoin_free("FOV: ", ft_itoa(data->player->fov), 0, 1);
+	str = get_string("FOV: ", data->player->fov);
 	ft_mlx_put_string(data->font, str, 75, 125);
 	free(str);
 	str = get_string("X: ", data->player->player_x);
