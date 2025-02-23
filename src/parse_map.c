@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 18:23:09 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:11:22 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ int	adjust_map_line_lengths(t_main *data)
 	char	*tmp;
 
 	max_line_len = get_max_line_length(data->map);
+	data->max_line_len = max_line_len;
 	i = 0;
 	while (data->map[i])
 	{

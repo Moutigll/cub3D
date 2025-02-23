@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 17:58:42 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:28:29 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ t_main	*init_main(void)
 	data->key_state = init_key_state();
 	if (parse_map(data, "assets/map.cub"))
 		return (free_data(data), NULL);
+	flood_fill(data, *(data->map), )
 	if (!init_textures(data) || !data->player || !data->textures || !data->key_state)
 		return (free_data(data), NULL);
 	return (data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 19:04:06 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:23:21 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_main
 	double		fps;
 	int			screen_width;
 	int			screen_height;
+	int			max_line_len;
 	int			oldtime;
 	int			newtime;
 	long int	frames;
@@ -171,4 +172,8 @@ void		render_frame(t_main *data);
 // debug
 void		print_data(t_main *data);
 void		render_debug_screen(t_main *data);
+
+//flood_fill
+void	flood_fill(t_main data, char *map_cp, int coords)
+
 #endif
