@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -g -I include -I libft/include -Wall -Wextra -Werror
+CFLAGS = -g -I include -I libft/include -Wall -Wextra -Werror -MMD -MP
 
 # 🏗️ Names
 NAME = cub3D
@@ -16,7 +16,18 @@ MLX = $(MLX_PATH)/libmlx.a
 MLX_FLAGS = -L$(MLX_PATH) -lmlx -lX11 -lXext -lm
 
 # 🔍 Recover files
-SRCS = $(shell find $(SRC_DIR) -type f -name "*.c")
+SRCS = $(SRC_DIR)/debug/debug_print.c \
+       $(SRC_DIR)/debug/debug_screen.c \
+       $(SRC_DIR)/parsing/parse_map.c \
+       $(SRC_DIR)/rendering/render_frame.c \
+       $(SRC_DIR)/rendering/raycast.c \
+       $(SRC_DIR)/rendering/apply_texture.c \
+       $(SRC_DIR)/hooks.c \
+       $(SRC_DIR)/init.c \
+       $(SRC_DIR)/loop.c \
+       $(SRC_DIR)/main.c \
+       $(SRC_DIR)/player.c
+
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 DEPS = $(OBJS:.o=.d)
 
@@ -70,4 +81,4 @@ re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(NAME)

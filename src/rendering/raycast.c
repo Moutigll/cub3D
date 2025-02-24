@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:42:44 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 18:02:17 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:29 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 static void	get_step_dir_and_size(t_ray *ray, t_main *data)
 {
@@ -38,11 +38,8 @@ static void	get_step_dir_and_size(t_ray *ray, t_main *data)
 	}
 }
 
-static t_ray	*init_cast_ray(t_main *data, double camera_x)
+static t_ray	*init_cast_ray(t_main *data, double camera_x, t_ray *ray)
 {
-	t_ray	*ray;
-
-	ray = malloc(sizeof(t_ray));
 	if (!ray)
 		return (NULL);
 	ray->ray_dir_x = data->player->dir_x
@@ -59,35 +56,30 @@ static t_ray	*init_cast_ray(t_main *data, double camera_x)
 	return (ray);
 }
 
-void	cast_ray(t_main *data, double camera_x)
+void	cast_ray(t_main *data, double camera_x, int column)
 {
-	t_ray	*ray;
-	int		line_height;
+	t_ray	ray;
 	int		side;
 
-	ray = init_cast_ray(data, camera_x);
-	if (!ray)
-		return ;
-	while (data->map[ray->ray_y][ray->ray_x] == '0')
+	init_cast_ray(data, camera_x, &ray);
+	while (data->map[ray.ray_y][ray.ray_x] == '0')
 	{
-		if (ray->size_x < ray->size_y)
+		if (ray.size_x < ray.size_y)
 		{
-			ray->size_x += ray->delta_x;
-			ray->ray_x += ray->step_x;
+			ray.size_x += ray.delta_x;
+			ray.ray_x += ray.step_x;
 			side = 0;
 		}
 		else
 		{
-			ray->size_y += ray->delta_y;
-			ray->ray_y += ray->step_y;
+			ray.size_y += ray.delta_y;
+			ray.ray_y += ray.step_y;
 			side = 1;
 		}
 	}
 	if (side == 0)
-		ray->perp_wall_dist = ray->size_x - ray->delta_x;
+		ray.perp_wall_dist = ray.size_x - ray.delta_x;
 	else
-		ray->perp_wall_dist = ray->size_y - ray->delta_y;
-	line_height = (int)(data->screen_height / ray->perp_wall_dist);
-	apply_texture(data, ray, side, (int)((camera_x + 1) * data->screen_width / 2));
-	free(ray);
+		ray.perp_wall_dist = ray.size_y - ray.delta_y;
+	apply_texture(data, &ray, side, column);
 }

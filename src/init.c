@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 16:54:10 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:04:35 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	init_textures(t_main *data)
 	data->textures->east = open_img(data, data->textures->east_path);
 	if (!data->textures->east)
 		return (printf("Error: Failed to open east texture\n"), 0);
+	data->textures->middle = HEIGHT / 2;
+	data->textures->north->bpp /= 8;
+	data->textures->south->bpp /= 8;
+	data->textures->west->bpp /= 8;
+	data->textures->east->bpp /= 8;
 	return (1);
 }
 
@@ -59,6 +64,7 @@ t_mlx_font	*init_font(t_main *data)
 	font->font = open_img(data, "assets/font.xpm");
 	font->letters_str = NULL;
 	font->letters = NULL;
+	font->mlx = data->mlx;
 	return (font);
 }
 
@@ -157,7 +163,11 @@ t_main	*init_main(void)
 	data->oldtime = 0;
 	data->newtime = 0;
 	data->frames = 0;
+	data->fps_max = 0;
+	data->fps_min = 0;
+	data->fps = 0;
 	data->fps = FPS;
+	data->fps_min = FPS;
 	data->screen_width = WIDTH;
 	data->screen_height = HEIGHT;
 	data->player = malloc(sizeof(t_player));

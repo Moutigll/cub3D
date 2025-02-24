@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:02:48 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 19:12:39 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:04:26 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cub3D.h"
 
 static t_mlx_img	*get_texture(t_main *data, t_ray *ray, int side)
 {
@@ -33,38 +33,40 @@ static t_mlx_img	*get_texture(t_main *data, t_ray *ray, int side)
 	return (texture);
 }
 
-void	mlx_pixel_put_img(t_main *data, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || x >= data->img->width || y < 0 || y >= data->img->height)
-		return ;
-	dst = data->img->addr
-		+ (y * data->img->size_line + x * (data->img->bpp / 8));
-	*(int *)dst = color;
-}
-
 static void	draw_wall_line(t_main *data, int column, int line_height,
-		t_mlx_img *texture, int tex_x)
+				t_mlx_img *texture, int tex_x)
 {
-	int	draw_start;
-	int	draw_end;
-	int	y;
-	int	tex_y;
-	int	color;
+	int				draw_start;
+	int				draw_end;
+	int				y;
+	unsigned int	*pixel;
+	int				step = data->img->size_line / 4;
+	unsigned int	*max_addr;
 
+	max_addr = (unsigned int *)(data->img->addr + data->img->size_line * data->screen_height);
 	draw_start = -line_height / 2 + data->screen_height / 2;
 	draw_end = line_height / 2 + data->screen_height / 2;
-	y = draw_start;
-	if (y < 0)
-		y = 0;
-	while (y < draw_end && y < data->screen_height)
+	y = 0;
+	tex_x *= texture->bpp;
+	pixel = (unsigned int *)(data->img->addr + column * (data->img->bpp / 8));
+	while (y < data->textures->middle && y < draw_start)
 	{
-		tex_y = ((y - draw_start) * texture->height) / line_height;
-		color = *(int *)(texture->addr + (tex_y * texture->size_line)
-				+ (tex_x * (texture->bpp / 8)));
-		mlx_pixel_put_img(data, column, y, color);
+		*pixel = data->textures->ceiling_color;
+		pixel += step;
 		y++;
+	}
+	while (y < draw_end && pixel < max_addr)
+	{
+		*pixel = *(unsigned int *)(texture->addr
+				+ (((y - draw_start) * texture->height) / line_height)
+				* texture->size_line + tex_x);
+		pixel += step;
+		y++;
+	}
+	while (pixel < max_addr)
+	{
+		*pixel = data->textures->floor_color;
+		pixel += step;
 	}
 }
 
@@ -83,6 +85,5 @@ void	apply_texture(t_main *data, t_ray *ray, int side, int x)
 	tex_x = (int)(wall_x * (double)texture->width);
 	if ((side == 0 && ray->ray_dir_x > 0) || (side == 1 && ray->ray_dir_y < 0))
 		tex_x = texture->width - tex_x - 1;
-	tex_x = abs(tex_x);
 	draw_wall_line(data, x, (int)(data->screen_height / ray->perp_wall_dist), texture, tex_x);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:45:30 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/21 09:46:49 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:53:37 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ int	destroy_hook(t_main *data)
 int	loop_hook(t_main *data)
 {
 	unsigned int	current_time;
+	unsigned int	frametime;
 
 	current_time = get_time_ms();
-	if (current_time - data->newtime >= 1000 / FPS)
+	frametime = current_time - data->newtime;
+	if (frametime > 0)
+		data->fps = 1000 / frametime;
+	if (frametime >= 1000 / FPS)
 	{
 		data->oldtime = data->newtime;
 		data->newtime = current_time;

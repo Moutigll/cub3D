@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 15:53:22 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:04:24 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define TITLE "Cub3D"
-# define FPS 60
+# define FPS 1000
 # define DEBUG_MODE True
 
 //Keycodes
@@ -39,8 +39,8 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_P 112
-# define KEY_PLUS 61
-# define KEY_MINUS 45
+# define KEY_PLUS 65451
+# define KEY_MINUS 65453
 
 // Player
 # define MOVE_SPEED 0.05
@@ -75,6 +75,8 @@ typedef struct s_main
 	void		*win;
 	t_mlx_img	*img;
 	double		fps;
+	double		fps_min;
+	double		fps_max;
 	int			screen_width;
 	int			screen_height;
 	int			oldtime;
@@ -96,7 +98,7 @@ typedef struct s_player
 	double	dir_y;
 	double	cam_plane_x;
 	double	cam_plane_y;
-	int		fov;
+	double	fov;
 }	t_player;
 
 typedef struct s_key_state
@@ -114,6 +116,7 @@ typedef struct s_texture
 	char		*west_path;
 	char		*east_path;
 	int			floor_color;
+	int			middle;
 	int			ceiling_color;
 	t_mlx_img	*north;
 	t_mlx_img	*south;
@@ -153,7 +156,7 @@ int			destroy_hook(t_main *data);
 int			loop_hook(t_main *data);
 
 // raycast.c
-void		cast_ray(t_main *data, double camera_x);
+void		cast_ray(t_main *data, double camera_x, int column);
 
 // apply_texture.c
 void		apply_texture(t_main *data, t_ray *ray, int side, int x);
@@ -179,3 +182,6 @@ void	flood_fill(t_main *data, char **map_cp, int x, int y);
 char	**cpy_map(char **map);
 
 #endif
+
+//idle fps: 60
+//now: 75
