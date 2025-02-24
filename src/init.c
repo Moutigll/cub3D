@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 17:43:31 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:44:20 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,9 @@ t_mlx_font	*init_font(t_main *data)
 	font = malloc(sizeof(t_mlx_font));
 	if (!font)
 		return (NULL);
-	font->font = malloc(sizeof(t_mlx_img));
-	if (!font->font)
-		return (free(font), NULL);
 	font->path = ft_strdup("assets/font.dim");
 	if (!font->path)
-		return (free(font->font), free(font), NULL);
+		return (free(font), NULL);
 	font->font = open_img(data, "assets/font.xpm");
 	font->letters_str = NULL;
 	font->letters = NULL;

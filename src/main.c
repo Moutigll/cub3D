@@ -6,41 +6,53 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 17:47:11 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:56:27 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
+static void	free_textures(t_main *data)
+{
+	if (!data->textures)
+		return ;
+	if (data->textures->north)
+	{
+		mlx_destroy_image(data->mlx, data->textures->north->img);
+		free(data->textures->north);
+	}
+	if (data->textures->south)
+	{
+		mlx_destroy_image(data->mlx, data->textures->south->img);
+		free(data->textures->south);
+	}
+	if (data->textures->west)
+	{
+		mlx_destroy_image(data->mlx, data->textures->west->img);
+		free(data->textures->west);
+	}
+	if (data->textures->east)
+	{
+		mlx_destroy_image(data->mlx, data->textures->east->img);
+		free(data->textures->east);
+	}
+	free(data->textures->north_path);
+	free(data->textures->south_path);
+	free(data->textures->west_path);
+	free(data->textures->east_path);
+	free(data->textures);
+}
+
 void	*free_data(t_main *data)
 {
 	if (!data)
 		exit(0);
+	free_textures(data);
 	if (data->img)
 	{
 		if (data->img->img)
 			mlx_destroy_image(data->mlx, data->img->img);
 		free(data->img);
-	}
-	if (data->textures)
-	{
-		if (data->textures->north_path)
-			free(data->textures->north_path);
-		if (data->textures->south_path)
-			free(data->textures->south_path);
-		if (data->textures->west_path)
-			free(data->textures->west_path);
-		if (data->textures->east_path)
-			free(data->textures->east_path);
-		if (data->textures->north)
-			free(data->textures->north);
-		if (data->textures->south)
-			free(data->textures->south);
-		if (data->textures->west)
-			free(data->textures->west);
-		if (data->textures->east)
-			free(data->textures->east);
-		free(data->textures);
 	}
 	if (data->player)
 		free(data->player);
@@ -51,12 +63,13 @@ void	*free_data(t_main *data)
 	if (data->map)
 		free_tab((void **)data->map);
 	if (data->win)
+	{
 		mlx_destroy_window(data->mlx, data->win);
-	if (data->mlx)
-		free(data->mlx);
+		mlx_destroy_display(data->mlx);
+	}
+	free(data->mlx);
 	free(data);
 	exit(0);
-	return (NULL);
 }
 
 int	main(void)
