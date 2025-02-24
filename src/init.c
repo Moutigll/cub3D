@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 16:15:30 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:54:10 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ t_main	*init_main(void)
 {
 	t_main	*data;
 	char	**map_cp;
-	int		x;
 
 	data = malloc(sizeof(t_main));
 	if (!data)
@@ -167,23 +166,11 @@ t_main	*init_main(void)
 	if (parse_map(data, "assets/map.cub"))
 		return (free_data(data), NULL);
 	map_cp = cpy_map(data->map);
-	x = 0;
-	while (map_cp[x])
-	{
-		printf("%s\n", map_cp[x]);
-		x++;
-	}
 	flood_fill(data, map_cp, data->player->player_x, data->player->player_y);
 	if (!map_is_flooded(map_cp))
 		printf("skehfijkiodiojiojhfeahfhe\n");
 	else
 		printf("Yay!\n");
-	x = 0;
-	while (map_cp[x])
-	{
-		printf("%s\n", map_cp[x]);
-		x++;
-	}
 	free_tab((void **)map_cp);
 	if (!init_textures(data) || !data->player || !data->textures || !data->key_state)
 		return (free_data(data), NULL);
