@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 00:54:11 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:04:24 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 // Window
 # define WIDTH 1920
@@ -174,6 +175,12 @@ void		render_frame(t_main *data);
 // debug
 void		print_data(t_main *data);
 void		render_debug_screen(t_main *data);
+
+//flood_fill
+bool	map_is_flooded(char **map);
+void	flood_fill(t_main *data, char **map_cp, int x, int y);
+char	**cpy_map(char **map);
+
 #endif
 
 //idle fps: 60

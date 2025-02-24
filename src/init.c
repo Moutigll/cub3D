@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 18:44:20 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:14:12 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ t_mlx_img	*allocate_img(void *mlx)
 t_main	*init_main(void)
 {
 	t_main	*data;
+	char	**map_cp;
 
 	data = malloc(sizeof(t_main));
 	if (!data)
@@ -171,6 +172,13 @@ t_main	*init_main(void)
 	data->key_state = init_key_state();
 	if (parse_map(data, "assets/map.cub"))
 		return (free_data(data), NULL);
+	map_cp = cpy_map(data->map);
+	flood_fill(data, map_cp, data->player->player_x, data->player->player_y);
+	if (!map_is_flooded(map_cp))
+		printf("skehfijkiodiojiojhfeahfhe\n");
+	else
+		printf("Yay!\n");
+	free_tab((void **)map_cp);
 	if (!init_textures(data) || !data->player || !data->textures || !data->key_state)
 		return (free_data(data), NULL);
 	return (data);
