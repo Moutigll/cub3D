@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 23:32:38 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:43:31 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_mlx_font	*init_font(t_main *data)
 	font->font = open_img(data, "assets/font.xpm");
 	font->letters_str = NULL;
 	font->letters = NULL;
+	font->mlx = data->mlx;
 	return (font);
 }
 
@@ -161,6 +162,9 @@ t_main	*init_main(void)
 	data->oldtime = 0;
 	data->newtime = 0;
 	data->frames = 0;
+	data->fps_max = 0;
+	data->fps_min = 0;
+	data->fps = 0;
 	data->fps = FPS;
 	data->fps_min = FPS;
 	data->screen_width = WIDTH;
