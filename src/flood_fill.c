@@ -22,16 +22,16 @@ bool	map_is_flooded(char **map)
 
 void	flood_fill(t_main *data, char **map_cp, int x, int y)
 {
-	map_cp[x][y] = '2';
-	if (map_cp[x][y + 1] != 1 && map_cp[x][y + 1] != 2)
+	if (x < -1 || y < -1)
+		return ;
+	map_cp[y][x] = '1';
+	if (map_cp[y + 1][x] == '0')
 		flood_fill(data, map_cp, x, y + 1);
-	if (map_cp[x][y - 1] != 1 && map_cp[x][y - 1] != 2)
+	if (map_cp[y - 1][x] == '0')
 		flood_fill(data, map_cp, x, y - 1);
-	if (map_cp[x + 1][y] != 1
-		&& map_cp[x + 1][y] != 2)
+	if (map_cp[y][x + 1] == '0')
 		flood_fill(data, map_cp, x + 1, y);
-	if (map_cp[x - 1][y] != 1
-		&& map_cp[x - 1][y] != 2)
+	if (map_cp[y][x - 1] == '0')
 		flood_fill(data, map_cp, x - 1, y);
 }
 
@@ -41,9 +41,7 @@ char	**cpy_map(char **map)
 	int		len;
 	int		i;
 
-	len = 0;
-	while (map[len])
-		len++;
+	len = ft_tablen((void **)map);
 	map_cp = malloc((len + 1) * sizeof(char *));
 	i = 0;
 	while (i < len)
@@ -51,22 +49,6 @@ char	**cpy_map(char **map)
 		map_cp[i] = ft_strdup(map[i]);
 		i++;
 	}
+	map_cp[i] = NULL;
 	return (map_cp);
-}
-
-void	get_player_pos(char **map, int	*x, int	*y)
-{
-	*x = 0;
-	while (map[*x])
-	{
-		*y = 0;
-		while(map[*x][*y])
-		{
-			if (map[*x][*y] == 'N' || map[*x][*y] == 'S'
-				|| map[*x][*y] == 'E' || map[*x][*y] == 'W')
-				return ;
-			*y += 1;
-		}
-		*x += 1;
-	}
 }

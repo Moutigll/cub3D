@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 14:23:10 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:53:22 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,5 @@ void		render_debug_screen(t_main *data);
 bool	map_is_flooded(char **map);
 void	flood_fill(t_main *data, char **map_cp, int x, int y);
 char	**cpy_map(char **map);
-void	get_player_pos(char **map, int	*x, int	*y);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 13:53:21 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:47:00 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ int	adjust_map_line_lengths(t_main *data)
 				return (-1);
 			ft_memset(tmp, ' ', max_line_len);
 			tmp[max_line_len] = '\0';
-			ft_strlcpy(tmp, data->map[i], len);
+			ft_memcpy(tmp, data->map[i], len);
 			free(data->map[i]);
 			data->map[i] = tmp;
 		}
