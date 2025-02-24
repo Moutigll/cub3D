@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 15:23:21 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:23:10 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 // Window
 # define WIDTH 1920
@@ -76,7 +77,6 @@ typedef struct s_main
 	double		fps;
 	int			screen_width;
 	int			screen_height;
-	int			max_line_len;
 	int			oldtime;
 	int			newtime;
 	long int	frames;
@@ -174,6 +174,9 @@ void		print_data(t_main *data);
 void		render_debug_screen(t_main *data);
 
 //flood_fill
-void	flood_fill(t_main data, char *map_cp, int coords)
+bool	map_is_flooded(char **map);
+void	flood_fill(t_main *data, char **map_cp, int x, int y);
+char	**cpy_map(char **map);
+void	get_player_pos(char **map, int	*x, int	*y);
 
 #endif

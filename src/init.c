@@ -6,7 +6,7 @@
 /*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 15:28:29 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:39:09 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,9 @@ t_mlx_img	*allocate_img(void *mlx)
 t_main	*init_main(void)
 {
 	t_main	*data;
+	char	**map_cp;
+	int		x;
+	int		y;
 
 	data = malloc(sizeof(t_main));
 	if (!data)
@@ -164,7 +167,20 @@ t_main	*init_main(void)
 	data->key_state = init_key_state();
 	if (parse_map(data, "assets/map.cub"))
 		return (free_data(data), NULL);
-	flood_fill(data, *(data->map), )
+	get_player_pos(data->map, &x, &y);
+	printf("%d, %d\n", x, y);
+	map_cp = cpy_map(data->map);
+	x = 0;
+	while (map_cp[x])
+	{
+		printf("%s\n", map_cp[x]);
+		x++;
+	}
+	// flood_fill(data, map_cp, x, y);
+	// if (!map_is_flooded(map_cp))
+	// 	printf("skehfijkiodiojiojhfeahfhe");
+	// else
+	// 	printf("Yay!");
 	if (!init_textures(data) || !data->player || !data->textures || !data->key_state)
 		return (free_data(data), NULL);
 	return (data);
