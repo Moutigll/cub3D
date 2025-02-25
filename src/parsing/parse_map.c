@@ -3,161 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 18:04:50 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:31:33 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
 
-int	is_valid_metadata(char *line)
+static int	is_valid_map_char(t_main *data, int x, int y, int *player_count)
 {
-	const char	*metadata[] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
-	int			i;
+	char	c;
 
-	i = 0;
-	while (i < 6)
+	c = data->map[y][x];
+	if (c != '0' && c != '1' && c != '2' && c != 'N' && c != 'S'
+		&& c != 'E' && c != 'W' && c != ' ')
+		return (printf("Error: Invalid character in map\n"), 0);
+	if (data->map[y][x] == 'N' || data->map[y][x] == 'S'
+		|| data->map[y][x] == 'E' || data->map[y][x] == 'W')
 	{
-		if ((line[0] == '\n' && line[1] == '\0') || line[0] == '\0')
-			return (1);
-		if (!ft_strncmp(line, metadata[i], ft_strlen(metadata[i])))
-			return (1);
-		i++;
+		if (*player_count)
+			return (printf("Error: Multiple players found\n"), 0);
+		init_player(data->player, x, y, data->map[y][x]);
+		data->map[y][x] = '0';
+		(*player_count)++;
 	}
-	return (0);
-}
-
-int	is_valid_color(char *line)
-{
-	char	**rgb;
-	int		i;
-	int		value;
-
-	rgb = ft_split(line, ',');
-	if (!rgb || ft_tablen((void **)rgb) != 3)
-	{
-		free_tab((void **)rgb);
-		printf("Error: Invalid color format for: %s\n", line);
-		return (0);
-	}
-	i = 0;
-	while (i < 3)
-	{
-		value = ft_atoi(rgb[i]);
-		if (value < 0 || value > 255)
-		{
-			printf("Error: Invalid color value for: %s\n", line);
-			free_tab((void **)rgb);
-			return (0);
-		}
-		i++;
-	}
-	free_tab((void **)rgb);
 	return (1);
 }
 
-int	parse_color(char *line)
+static int	check_line_length(t_main *data, int y, size_t max_len)
 {
-	int		nb_commas;
-	int		r;
-	int		g;
-	int		b;
-	char	**rgb;
-	int		i;
+	char	*tmp;
 
-	nb_commas = 0;
-	i = 0;
-	while (line[i])
+	if (ft_strlen(data->map[y]) < max_len)
 	{
-		if (line[i] == ',')
-			nb_commas++;
-		i++;
+		tmp = malloc(max_len + 1);
+		if (!tmp)
+			return (printf("Error: Map allocation failed\n"), 0);
+		ft_memset(tmp, ' ', max_len);
+		ft_memcpy(tmp, data->map[y], ft_strlen(data->map[y]));
+		tmp[max_len] = '\0';
+		free(data->map[y]);
+		data->map[y] = tmp;
 	}
-	if (nb_commas != 2)
-	{
-		printf("Error: Invalid color format for: %s\n", line);
-		return (-1);
-	}
-	if (!is_valid_color(line))
-		return (-1);
-	rgb = ft_split(line, ',');
-	if (!rgb)
-		return (-1);
-	r = ft_atoi(rgb[0]);
-	g = ft_atoi(rgb[1]);
-	b = ft_atoi(rgb[2]);
-	free_tab((void **)rgb);
-	return (r << 16 | g << 8 | b);
+	return (1);
 }
 
-char	*parse_metadata(int fd, t_main *data)
+static int	check_map_validity(t_main *data)
 {
-	char	*line;
-	char	*map_str;
-	int		metadata_count;
-
-	metadata_count = 0;
-	line = get_next_line(fd);
-	while (line && metadata_count < 6 && is_valid_metadata(line))
-	{
-		if (!ft_strncmp(line, "NO ", 3))
-			data->textures->north_path = ft_strcut(line + 3, '\n');
-		else if (!ft_strncmp(line, "SO ", 3))
-			data->textures->south_path = ft_strcut(line + 3, '\n');
-		else if (!ft_strncmp(line, "WE ", 3))
-			data->textures->west_path = ft_strcut(line + 3, '\n');
-		else if (!ft_strncmp(line, "EA ", 3))
-			data->textures->east_path = ft_strcut(line + 3, '\n');
-		else if (!ft_strncmp(line, "F ", 2))
-			data->textures->floor_color = parse_color(line + 2);
-		else if (!ft_strncmp(line, "C ", 2))
-			data->textures->ceiling_color = parse_color(line + 2);
-		else
-			metadata_count--;
-		metadata_count++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (line)
-		map_str = ft_strdup(line);
-	free(line);
-	if (metadata_count != 6)
-		return (printf("Error: Wrong metadata number, found %d\n", metadata_count), NULL);
-	return (map_str);
-}
-
-int	is_valid_map_char(char c)
-{
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ');
-}
-
-int	check_map_validity(t_main *data)
-{
-	int	x;
-	int	y;
-	int	player_count;
+	int		x;
+	int		y;
+	int		player_count;
+	size_t	max_len;
 
 	player_count = 0;
 	y = 0;
+	max_len = get_max_line_length(data->map);
 	while (data->map[y])
 	{
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (!is_valid_map_char(data->map[y][x]))
-				return (printf("Error: Invalid character in map [%c]\n", data->map[y][x]), 0);
-			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'E' || data->map[y][x] == 'W')
-			{
-				if (player_count > 0)
-					return (printf("Error: Multiple players found\n"), 0);
-				init_player(data->player, x, y, data->map[y][x]);
-				data->map[y][x] = '0';
-				player_count++;
-			}
+			if (!is_valid_map_char(data, x, y, &player_count))
+				return (0);
 			x++;
 		}
+		if (!check_line_length(data, y, max_len))
+			return (0);
 		y++;
 	}
 	if (player_count == 0)
@@ -165,25 +78,7 @@ int	check_map_validity(t_main *data)
 	return (1);
 }
 
-int	get_max_line_length(char **map)
-{
-	int	max_len;
-	int	len;
-	int	i;
-
-	max_len = 0;
-	i = 0;
-	while (map[i])
-	{
-		len = ft_strlen(map[i]);
-		if (len > max_len)
-			max_len = len;
-		i++;
-	}
-	return (max_len);
-}
-
-int	read_and_parse_map(t_main *data, int fd, char *last_line)
+static int	read_and_parse_map(t_main *data, int fd, char *last_line)
 {
 	char	*line;
 	char	*map_str;
@@ -212,40 +107,11 @@ int	read_and_parse_map(t_main *data, int fd, char *last_line)
 	return (0);
 }
 
-int	adjust_map_line_lengths(t_main *data)
-{
-	int		max_line_len;
-	int		i;
-	int		len;
-	char	*tmp;
-
-	max_line_len = get_max_line_length(data->map);
-	i = 0;
-	while (data->map[i])
-	{
-		len = ft_strlen(data->map[i]);
-		if (len < max_line_len)
-		{
-			tmp = malloc(max_line_len + 1);
-			if (!tmp)
-				return (-1);
-			ft_memset(tmp, ' ', max_line_len);
-			tmp[max_line_len] = '\0';
-			ft_memcpy(tmp, data->map[i], len);
-			free(data->map[i]);
-			data->map[i] = tmp;
-		}
-		i++;
-	}
-	if (!check_map_validity(data))
-		return (-1);
-	return (0);
-}
-
 int	parse_map(t_main *data, const char *file_path)
 {
 	int		fd;
 	char	*line;
+	char	**map_cp;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
@@ -253,7 +119,14 @@ int	parse_map(t_main *data, const char *file_path)
 	line = parse_metadata(fd, data);
 	if (read_and_parse_map(data, fd, line) == -1)
 		return (-1);
-	if (adjust_map_line_lengths(data) == -1)
-		return (-1);
+	if (!check_map_validity(data))
+		return (free_data(data), -1);
+	map_cp = cpy_map(data->map);
+	flood_fill(data, map_cp, (int)data->player->player_x,
+		(int)data->player->player_y);
+	if (!map_is_flooded(map_cp))
+		return (printf("Error: The map is not closed\n"),
+			free_data(data), -1);
+	free_tab((void **)map_cp);
 	return (0);
 }

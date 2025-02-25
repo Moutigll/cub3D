@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 21:56:27 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:16:07 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	free_textures(t_main *data)
 {
-	if (!data->textures)
-		return ;
 	if (data->textures->north)
 	{
 		mlx_destroy_image(data->mlx, data->textures->north->img);
@@ -45,9 +43,8 @@ static void	free_textures(t_main *data)
 
 void	*free_data(t_main *data)
 {
-	if (!data)
-		exit(0);
-	free_textures(data);
+	if (data->textures)
+		free_textures(data);
 	if (data->img)
 	{
 		if (data->img->img)
@@ -70,6 +67,14 @@ void	*free_data(t_main *data)
 	free(data->mlx);
 	free(data);
 	exit(0);
+}
+
+long	get_time_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 int	main(void)

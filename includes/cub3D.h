@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/24 18:04:24 by mlarieux         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:24:11 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 // Player
 # define MOVE_SPEED 0.05
-# define ROTATE_SPEED 0.05
+# define ROTATE_SPEED 0.03
 # define FOV 45
 
 // Colors
@@ -139,49 +139,64 @@ typedef struct s_ray
 	double	perp_wall_dist;
 }	t_ray;
 
-// main.c
+typedef struct s_column
+{
+	int		x;
+	int		column_height;
+	int		draw_start;
+	int		draw_end;
+	int		step;
+	int		y;
+}	t_column;
+
+//main
 void		*free_data(t_main *data);
+long		get_time_ms(void);
 
-// init.c
-t_main		*init_main(void);
+//init
+	//init_utils
+int			init_textures(t_main *data);
+t_mlx_font	*init_font(t_main *data);
 void		init_player(t_player *player, int x, int y, char dir);
+	//init
+t_main		*init_main(void);
 
-// parse_map.c
+//parsing
+	//parse_metadata
+char		*parse_metadata(int fd, t_main *data);
+int			get_max_line_length(char **map);
+	//parse_map
 int			parse_map(t_main *data, const char *file_path);
+	//flood_fill
+t_bool		map_is_flooded(char **map);
+void		flood_fill(t_main *data, char **map_cp, int x, int y);
+char		**cpy_map(char **map);
 
-// hooks.c
+//rendering
+	//render_frame
+void		render_frame(t_main *data);
+	//raycast
+void		cast_ray(t_main *data, double camera_x, int column);
+	//apply_texture
+void		apply_texture(t_main *data, t_ray *ray, int side, int x);
+
+//hooks
 int			key_press_hook(int keycode, t_main *data);
 int			key_release_hook(int keycode, t_main *data);
 int			destroy_hook(t_main *data);
 int			loop_hook(t_main *data);
 
-// raycast.c
-void		cast_ray(t_main *data, double camera_x, int column);
-
-// apply_texture.c
-void		apply_texture(t_main *data, t_ray *ray, int side, int x);
-
-// loop.c
+//loop
 int			main_loop(t_main *data);
 
-// player.c
+//player
 void		rotate_player(t_main *data, double angle);
 void		move_player(t_main *data, int direction);
 
-// render_frame.c
-long		get_time_ms(void);
-void		render_frame(t_main *data);
-
-// debug
+//debug
+	//print
 void		print_data(t_main *data);
+	//screen
 void		render_debug_screen(t_main *data);
 
-//flood_fill
-bool	map_is_flooded(char **map);
-void	flood_fill(t_main *data, char **map_cp, int x, int y);
-char	**cpy_map(char **map);
-
 #endif
-
-//idle fps: 60
-//now: 75

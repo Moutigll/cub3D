@@ -6,19 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 01:04:32 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:16:01 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
-
-long	get_time_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
 
 void	render_frame(t_main *data)
 {

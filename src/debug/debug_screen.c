@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 07:34:16 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 01:01:39 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:26:19 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,11 @@ static int	get_color_from_fps(float fps, float fps_min, float fps_max)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-static void	render_debug_screen_part2(t_main *data)
+static void	render_debug_screen_part3(t_main *data)
 {
 	char	*str;
 	char	*tmp;
 
-	ft_mlx_put_string(data->font, "Player: ", 10, 100);
-	str = get_string("FOV: ", data->player->fov);
-	ft_mlx_put_string(data->font, str, 75, 125);
-	free(str);
-	str = get_string("X: ", data->player->player_x);
-	ft_mlx_put_string(data->font, str, 75, 150);
-	free(str);
-	str = get_string("Y: ", data->player->player_y);
-	ft_mlx_put_string(data->font, str, 75, 175);
-	free(str);
 	tmp = get_string("Orientation: ", data->player->dir_x);
 	str = ft_strjoin_free(tmp, "|", 1, 0);
 	tmp = ft_dtoa(data->player->dir_y, 2);
@@ -78,11 +68,36 @@ static void	render_debug_screen_part2(t_main *data)
 	free(str);
 }
 
+static void	render_debug_screen_part2(t_main *data)
+{
+	char	*str;
+	int		i;
+
+	str = get_string("Worst: ", data->fps_min);
+	data->font->color = 0xFF0000;
+	i = ft_mlx_put_string(data->font, str, 10, 75);
+	free(str);
+	str = get_string(" | Best: ", data->fps_max);
+	data->font->color = 0x00FF00;
+	ft_mlx_put_string(data->font, str, i, 75);
+	free(str);
+	ft_mlx_put_string(data->font, "Player: ", 10, 100);
+	str = get_string("FOV: ", data->player->fov);
+	ft_mlx_put_string(data->font, str, 75, 125);
+	free(str);
+	str = get_string("X: ", data->player->player_x);
+	ft_mlx_put_string(data->font, str, 75, 150);
+	free(str);
+	str = get_string("Y: ", data->player->player_y);
+	ft_mlx_put_string(data->font, str, 75, 175);
+	free(str);
+	render_debug_screen_part3(data);
+}
+
 void	render_debug_screen(t_main *data)
 {
 	char	*str;
 	char	*tmp;
-	int		i;
 
 	data->font->font_size = 4;
 	data->font->space_width = 7;
@@ -94,20 +109,14 @@ void	render_debug_screen(t_main *data)
 	tmp = ft_dtoa(data->fps, 2);
 	str = ft_strjoin_free("FPS: ", tmp, 0, 1);
 	tmp = ft_strjoin_free(str, " | AVG: ", 1, 0);
-	str = get_string(tmp, data->frames * 1000.0 / (data->newtime - data->start_time));
+	str = get_string(tmp, data->frames * 1000.0
+			/ (data->newtime - data->start_time));
 	free(tmp);
 	tmp = ft_strjoin_free(str, " | Frames: ", 1, 0);
 	str = ft_strjoin_free(tmp, ft_itoa(data->frames), 1, 1);
-	data->font->color = get_color_from_fps(data->fps, data->fps_min, data->fps_max);
+	data->font->color = get_color_from_fps(data->fps,
+			data->fps_min, data->fps_max);
 	ft_mlx_put_string(data->font, str, 10, 50);
-	free(str);
-	str = get_string("Worst: ", data->fps_min);
-	data->font->color = 0xFF0000;
-	i = ft_mlx_put_string(data->font, str, 10, 75);
-	free(str);
-	str = get_string(" | Best: ", data->fps_max);
-	data->font->color = 0x00FF00;
-	ft_mlx_put_string(data->font, str, i, 75);
 	free(str);
 	render_debug_screen_part2(data);
 }

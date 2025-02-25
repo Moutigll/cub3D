@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moutig <moutig@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:13:22 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 01:28:31 by moutig           ###   ########.fr       */
+/*   Updated: 2025/02/25 19:20:24 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	rotate_player(t_main *data, double angle)
 		* sin_a + data->player->cam_plane_y * cos_a;
 }
 
-int	check_collision(t_main *data, double new_x, double new_y)
+static int	check_collision(t_main *data, double new_x, double new_y)
 {
 	int	x;
 	int	y;

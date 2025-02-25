@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:02:48 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/23 01:04:26 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:02:01 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ void	apply_texture(t_main *data, t_ray *ray, int side, int x)
 	tex_x = (int)(wall_x * (double)texture->width);
 	if ((side == 0 && ray->ray_dir_x > 0) || (side == 1 && ray->ray_dir_y < 0))
 		tex_x = texture->width - tex_x - 1;
-	draw_wall_line(data, x, (int)(data->screen_height / ray->perp_wall_dist), texture, tex_x);
+	draw_wall_line(data, x, (int)(data->screen_height
+			/ ray->perp_wall_dist), texture, tex_x);
 }
