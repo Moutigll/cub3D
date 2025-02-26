@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_frame.c                                     :+:      :+:    :+:   */
+/*   cube3D_t.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 19:09:33 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/26 17:50:48 by ele-lean         ###   ########.fr       */
+/*   Created: 2025/02/26 17:32:39 by ele-lean          #+#    #+#             */
+/*   Updated: 2025/02/26 19:30:44 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3D.h"
+#ifndef CUBE3D_T_H
+# define CUBE3D_T_H
 
-void	render_frame(t_main *data)
+# include "cub3D.h"
+# include <pthread.h>
+
+# define THREADS 16
+
+typedef struct s_thread_data
 {
-	int		x;
-	double	camera_x;
+	t_main				*data;
+	int					thread_id;
+	pthread_barrier_t	*start;
+	pthread_barrier_t	*end;
+	pthread_t			thread;
+	int					running;
+}	t_thread_data;
 
-	x = 0;
-	while (x < data->screen_width)
-	{
-		camera_x = 2 * x / (double)data->screen_width - 1;
-		cast_ray(data, camera_x, x);
-		x++;
-	}
-	if (DEBUG_MODE == True)
-		render_debug_screen(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img->img, 0, 0);
-}
+t_thread_data	*init_threads(t_main *data);
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/25 19:25:53 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:17:27 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,9 @@ t_main	*init_main(void)
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, TITLE);
 	if (!data->win)
 		return (free(data), NULL);
+	data->mouse_x = 0;
+	data->mouse_y = 0;
+	if (ENABLE_MOUSE)
+		mlx_mouse_hide(data->mlx, data->win);
 	return (init_components(data));
 }

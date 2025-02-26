@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:45:30 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/22 20:53:37 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:15:40 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,24 @@ int	loop_hook(t_main *data)
 		main_loop(data);
 		render_frame(data);
 	}
+	return (0);
+}
+
+int	mouse_move(int x, int y, t_main *data)
+{
+	int	delta_x;
+	int	delta_y;
+
+	delta_x = x - data->mouse_x;
+	delta_y = y - data->mouse_y;
+	if (delta_x > -IGNORE_THRESHOLD && delta_x < IGNORE_THRESHOLD)
+		delta_x = 0;
+	if (delta_y > -IGNORE_THRESHOLD && delta_y < IGNORE_THRESHOLD)
+		delta_y = 0;
+	if (delta_x != 0)
+		rotate_player(data, delta_x * MOUSE_SENSITIVITY * ROTATE_SPEED);
+	data->mouse_x = data->screen_width / 2;
+	data->mouse_y = data->screen_height / 2;
+	mlx_mouse_move(data->mlx, data->win, data->mouse_x, data->mouse_y);
 	return (0);
 }

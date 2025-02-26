@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/25 19:24:11 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:48:22 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 // Player
 # define MOVE_SPEED 0.05
 # define ROTATE_SPEED 0.03
+# define ENABLE_MOUSE False
+# define MOUSE_SENSITIVITY 0.1
+# define IGNORE_THRESHOLD 2
 # define FOV 45
 
 // Colors
@@ -84,6 +87,9 @@ typedef struct s_main
 	long int	frames;
 	int			start_time;
 	char		**map;
+	int			mouse_x;
+	int			mouse_y;
+	void		*threads;
 	t_mlx_font	*font;
 	t_player	*player;
 	t_key_state	*key_state;
@@ -185,6 +191,7 @@ int			key_press_hook(int keycode, t_main *data);
 int			key_release_hook(int keycode, t_main *data);
 int			destroy_hook(t_main *data);
 int			loop_hook(t_main *data);
+int			mouse_move(int x, int y, t_main *data);
 
 //loop
 int			main_loop(t_main *data);

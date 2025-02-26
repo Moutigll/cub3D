@@ -6,11 +6,11 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/26 19:16:38 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:24:14 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../../includes/cube3D_t.h"
 
 static void	free_textures(t_main *data)
 {
@@ -41,8 +41,32 @@ static void	free_textures(t_main *data)
 	free(data->textures);
 }
 
+void	cleanup_threads(t_thread_data *threads)
+{
+	int	i;
+
+	i = 0;
+	while (i < THREADS)
+	{
+		threads[i].running = 0;
+		i++;
+	}
+	i = 0;
+	pthread_barrier_wait(threads[0].start);
+	pthread_barrier_wait(threads[0].end);
+	while (i < THREADS)
+	{
+		pthread_join(threads[i].thread, NULL);
+		i++;
+	}
+	free(threads[0].start);
+	free(threads[0].end);
+	free(threads);
+}
+
 void	*free_data(t_main *data)
 {
+	cleanup_threads(data->threads);
 	if (data->textures)
 		free_textures(data);
 	if (data->img)
@@ -79,11 +103,12 @@ long	get_time_ms(void)
 
 int	main(void)
 {
-	t_main		*data;
+	t_main			*data;
 
 	data = init_main();
 	if (!data || !data->player || !data->key_state || !data->textures)
 		return (free_data(data), 1);
+	data->threads = init_threads(data);
 	data->start_time = get_time_ms();
 	render_frame(data);
 	mlx_loop_hook(data->mlx, loop_hook, data);
