@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/26 19:17:27 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/01 21:07:46 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,9 @@ t_main	*init_main(void)
 	data->mouse_y = 0;
 	if (ENABLE_MOUSE)
 		mlx_mouse_hide(data->mlx, data->win);
-	return (init_components(data));
+	init_components(data);
+	data->img_step = data->img->size_line / 4;
+	data->max_addr = (unsigned int *)(data->img->addr
+			+ data->img->size_line * data->img->height);
+	return (data);
 }

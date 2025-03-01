@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/01 19:42:19 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/01 22:41:51 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,28 @@ typedef struct s_texture	t_texture;
 typedef struct s_mlx_img	t_mlx_img;
 typedef struct s_main
 {
-	void		*mlx;
-	void		*win;
-	t_mlx_img	*img;
-	double		fps;
-	double		fps_min;
-	double		fps_max;
-	int			screen_width;
-	int			screen_height;
-	int			oldtime;
-	int			newtime;
-	long int	frames;
-	int			start_time;
-	char		**map;
-	int			mouse_x;
-	int			mouse_y;
-	void		*threads;
-	t_mlx_font	*font;
-	t_player	*player;
-	t_key_state	*key_state;
-	t_texture	*textures;
+	void			*mlx;
+	void			*win;
+	t_mlx_img		*img;
+	double			fps;
+	double			fps_min;
+	double			fps_max;
+	int				screen_width;
+	int				screen_height;
+	int				oldtime;
+	int				newtime;
+	long int		frames;
+	int				start_time;
+	char			**map;
+	int				mouse_x;
+	int				mouse_y;
+	void			*threads;
+	int				img_step;
+	unsigned int	*max_addr;
+	t_mlx_font		*font;
+	t_player		*player;
+	t_key_state		*key_state;
+	t_texture		*textures;
 }	t_main;
 
 typedef struct s_player
@@ -165,6 +167,12 @@ typedef struct s_square
 	int	size;
 	int	color;
 }	t_square;
+
+typedef struct s_params
+{
+	int		tex_x;
+	int		column;
+}	t_params;
 
 //main
 void		*free_data(t_main *data);
