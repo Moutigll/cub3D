@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/26 20:48:22 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:42:19 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define TITLE "Cub3D"
 # define FPS 1000
 # define DEBUG_MODE True
+# define MINIMAP True
+# define MINIMAP_TRANSPARENCY 0xa0
 
 //Keycodes
 # define KEY_ESC 65307
@@ -45,7 +47,7 @@
 // Player
 # define MOVE_SPEED 0.05
 # define ROTATE_SPEED 0.03
-# define ENABLE_MOUSE False
+# define ENABLE_MOUSE True
 # define MOUSE_SENSITIVITY 0.1
 # define IGNORE_THRESHOLD 2
 # define FOV 45
@@ -55,6 +57,7 @@
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
 # define PURPLE 0xFF00FF
+# define GREEN 0x00FF00
 # define DARK_PURPLE 0x800080
 
 // Various
@@ -155,6 +158,14 @@ typedef struct s_column
 	int		y;
 }	t_column;
 
+typedef struct s_square
+{
+	int	x;
+	int	y;
+	int	size;
+	int	color;
+}	t_square;
+
 //main
 void		*free_data(t_main *data);
 long		get_time_ms(void);
@@ -185,6 +196,8 @@ void		render_frame(t_main *data);
 void		cast_ray(t_main *data, double camera_x, int column);
 	//apply_texture
 void		apply_texture(t_main *data, t_ray *ray, int side, int x);
+	//minimap
+void		draw_minimap(t_main *data, int x, int y, int size);
 
 //hooks
 int			key_press_hook(int keycode, t_main *data);

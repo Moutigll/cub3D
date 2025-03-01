@@ -24,6 +24,7 @@ SRCS = \
 	$(SRC_DIR)/rendering/apply_texture.c \
 	$(SRC_DIR)/rendering/render_frame.c \
 	$(SRC_DIR)/rendering/raycast.c \
+	$(SRC_DIR)/rendering/minimap.c \
 	$(SRC_DIR)/hooks.c \
 	$(SRC_DIR)/loop.c \
 	$(SRC_DIR)/main.c \
