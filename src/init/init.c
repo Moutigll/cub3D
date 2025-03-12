@@ -6,11 +6,25 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:34:28 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/01 21:07:46 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:20:55 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+void	init_textures_to_null(t_texture *textures)
+{
+	if (!textures)
+		return ;
+	textures->north = NULL;
+	textures->south = NULL;
+	textures->west = NULL;
+	textures->east = NULL;
+	textures->north_path = NULL;
+	textures->south_path = NULL;
+	textures->west_path = NULL;
+	textures->east_path = NULL;
+}
 
 static t_key_state	*init_key_state(void)
 {
@@ -45,9 +59,6 @@ static t_mlx_img	*allocate_img(void *mlx)
 
 static t_main	*init_components(t_main *data)
 {
-	data->img = allocate_img(data->mlx);
-	if (!data->img)
-		return (free(data), NULL);
 	data->font = init_font(data);
 	if (!data->font || !mlx_new_font(data->font))
 		return (free(data), NULL);
@@ -63,8 +74,9 @@ static t_main	*init_components(t_main *data)
 	data->screen_height = HEIGHT;
 	data->player = malloc(sizeof(t_player));
 	data->textures = malloc(sizeof(t_texture));
+	init_textures_to_null(data->textures);
 	data->key_state = init_key_state();
-	if (parse_map(data, "assets/map.cub"))
+	if (parse_map(data, data->map_file))
 		return (free_data(data), NULL);
 	if (!init_textures(data)
 		|| !data->player || !data->textures || !data->key_state)
@@ -72,13 +84,14 @@ static t_main	*init_components(t_main *data)
 	return (data);
 }
 
-t_main	*init_main(void)
+t_main	*init_main(char *file_path)
 {
 	t_main	*data;
 
 	data = malloc(sizeof(t_main));
 	if (!data)
 		return (NULL);
+	data->map_file = file_path;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (free(data), NULL);
@@ -89,6 +102,9 @@ t_main	*init_main(void)
 	data->mouse_y = 0;
 	if (ENABLE_MOUSE)
 		mlx_mouse_hide(data->mlx, data->win);
+	data->img = allocate_img(data->mlx);
+	if (!data->img)
+		return (free(data), NULL);
 	init_components(data);
 	data->img_step = data->img->size_line / 4;
 	data->max_addr = (unsigned int *)(data->img->addr

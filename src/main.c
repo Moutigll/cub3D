@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 17:59:59 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/26 19:16:38 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:23:18 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ long	get_time_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	t_main		*data;
+	t_main			*data;
 
-	data = init_main();
+	if (argc != 2)
+		return (printf("Error: Invalid number of arguments\n"), 1);
+	data = init_main(argv[1]);
 	if (!data || !data->player || !data->key_state || !data->textures)
 		return (free_data(data), 1);
 	data->start_time = get_time_ms();

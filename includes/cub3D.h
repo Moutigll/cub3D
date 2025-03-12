@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/01 22:41:51 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:19:55 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // Player
 # define MOVE_SPEED 0.05
 # define ROTATE_SPEED 0.03
-# define ENABLE_MOUSE True
+# define ENABLE_MOUSE False
 # define MOUSE_SENSITIVITY 0.1
 # define IGNORE_THRESHOLD 2
 # define FOV 45
@@ -95,6 +95,7 @@ typedef struct s_main
 	void			*threads;
 	int				img_step;
 	unsigned int	*max_addr;
+	char			*map_file;
 	t_mlx_font		*font;
 	t_player		*player;
 	t_key_state		*key_state;
@@ -184,7 +185,7 @@ int			init_textures(t_main *data);
 t_mlx_font	*init_font(t_main *data);
 void		init_player(t_player *player, int x, int y, char dir);
 	//init
-t_main		*init_main(void);
+t_main		*init_main(char *file_path);
 
 //parsing
 	//parse_metadata
