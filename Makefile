@@ -20,6 +20,7 @@ SRCS = \
 	$(SRC_DIR)/init/init.c \
 	$(SRC_DIR)/parsing/flood_fill.c \
 	$(SRC_DIR)/parsing/parse_map.c \
+	$(SRC_DIR)/parsing/ft_rm_blanks.c \
 	$(SRC_DIR)/parsing/parse_metadata.c \
 	$(SRC_DIR)/rendering/apply_texture.c \
 	$(SRC_DIR)/rendering/render_frame.c \

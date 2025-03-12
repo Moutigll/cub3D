@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_metadata.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 22:28:23 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/02/25 17:33:46 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:41:21 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static int	parse_color(char *line)
 static int	extract_metadata(char *line, t_main *data)
 {
 	if (!ft_strncmp(line, "NO ", 3))
-		data->textures->north_path = ft_strcut(line + 3, '\n');
+		data->textures->north_path = ft_rm_blanks(line + 3);
 	else if (!ft_strncmp(line, "SO ", 3))
-		data->textures->south_path = ft_strcut(line + 3, '\n');
+		data->textures->south_path = ft_rm_blanks(line + 3);
 	else if (!ft_strncmp(line, "WE ", 3))
-		data->textures->west_path = ft_strcut(line + 3, '\n');
+		data->textures->west_path = ft_rm_blanks(line + 3);
 	else if (!ft_strncmp(line, "EA ", 3))
-		data->textures->east_path = ft_strcut(line + 3, '\n');
+		data->textures->east_path = ft_rm_blanks(line + 3);
 	else if (!ft_strncmp(line, "F ", 2))
 		data->textures->floor_color = parse_color(line + 2);
 	else if (!ft_strncmp(line, "C ", 2))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlarieux <mlarieux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/12 16:15:31 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:40:49 by mlarieux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ t_main		*init_main(char *file_path);
 
 //parsing
 	//parse_metadata
+char		*ft_rm_blanks(char *line);
 char		*parse_metadata(int fd, t_main *data);
 int			get_max_line_length(char **map);
 	//parse_map
