@@ -6,11 +6,40 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 22:27:23 by mlarieux          #+#    #+#             */
-/*   Updated: 2025/02/25 16:08:14 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:09:42 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3D.h"
+
+int	check_empty_line(char *line, char **tmp, char *map, int fd)
+{
+	int	i;
+
+	i = 0;
+	*tmp = ft_strjoin(map, line);
+	if (!*tmp)
+	{
+		free(map);
+		free(line);
+		return (printf("Error: Map allocation failed\n"), 1);
+	}
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			return (0);
+		i++;
+	}
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	free(map);
+	free(*tmp);
+	close(fd);
+	return (1);
+}
 
 t_bool	map_is_flooded(char **map)
 {

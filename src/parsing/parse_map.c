@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:56:15 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/12 15:15:03 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:09:33 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,10 @@ static int	read_and_parse_map(t_main *data, int fd, char *last_line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		tmp = ft_strjoin(map_str, line);
+		if (check_empty_line(line, &tmp, map_str, fd))
+			return (printf("Error: Invalid line in map\n"), -1);
 		free(map_str);
 		free(line);
-		if (!tmp)
-			return (-1);
 		map_str = tmp;
 		line = get_next_line(fd);
 	}
@@ -118,7 +117,10 @@ int	parse_map(t_main *data, const char *file_path)
 		return (printf("Error: Failed to open map file\n"), -1);
 	line = parse_metadata(fd, data);
 	if (read_and_parse_map(data, fd, line) == -1)
+	{
+		data->map = NULL;
 		return (-1);
+	}
 	if (!check_map_validity(data))
 		return (free_data(data), -1);
 	map_cp = cpy_map(data->map);

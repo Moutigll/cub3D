@@ -6,7 +6,7 @@
 /*   By: ele-lean <ele-lean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:00:06 by ele-lean          #+#    #+#             */
-/*   Updated: 2025/03/12 15:19:55 by ele-lean         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:15:31 by ele-lean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int			get_max_line_length(char **map);
 	//parse_map
 int			parse_map(t_main *data, const char *file_path);
 	//flood_fill
+int			check_empty_line(char *line, char **tmp, char *map, int fd);
 t_bool		map_is_flooded(char **map);
 void		flood_fill(t_main *data, char **map_cp, int x, int y);
 char		**cpy_map(char **map);
